@@ -9,6 +9,8 @@ async function run(): Promise<void> {
       const envVarname = key // `INPUT_${key.replace(/ /g, '_').toUpperCase()}`
       const value = mapObj[key].toString()
       process.env[envVarname] = value
+      // eslint-disable-next-line no-console
+      console.log(`::set-env name=${key}::${value}`)
       core.info(`Set ${envVarname} = ${value}`)
       core.setOutput(key, value)
     }
