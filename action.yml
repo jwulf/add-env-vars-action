@@ -1,6 +1,9 @@
 name: 'Add Env vars'
 description: 'Add env vars that map contexts, globally'
 author: 'Josh Wulf <josh@magikcraft.io>'
+branding:
+  icon: settings
+  color: purple
 inputs:
   map:              # change this
     description: 'Map of vars'
