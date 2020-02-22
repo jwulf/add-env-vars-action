@@ -26,7 +26,7 @@ jobs:
       - name: Setup env
         uses: jwulf/add-env-vars-action@master
         with:
-          map: '{"resourceGroup1": "${GITHUB_RUN_ID}-${GITHUB_RUN_NUMBER}", "resourceGroup2": "${{ github.run_id }}-${{ github.run_number }}"}'
+          map: '{"resourceGroup1": "${{ github.run_id }}-${{ github.run_number }}", "resourceGroup2": "${{ github.run_id }}-${{ github.run_number }}"}'
       - name: test1
         run: echo ${{ env.resourceGroup1 }}
       - name: test2
