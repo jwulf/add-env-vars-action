@@ -17,10 +17,6 @@ jobs:
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-      - name: Setup env
-        uses: jwulf/add-env-vars-action@master
-        with:
-          map: '{"resourceGroup1": "${{ github.run_id }}-${{ github.run_number }}", "resourceGroup2": "${{ github.run_id }}-${{ github.run_number }}"}'
       - name: Set vars
         run: echo "::set-env name=resourceGroup2::${{ github.run_id }}-${{ github.run_number }}"
       - name: test1

@@ -20,13 +20,13 @@ Use this action as the first step in your workflow, and pass in the JSON-stringi
 
 ```
 jobs:
-  foo:
+   test: 
     runs-on: ubuntu-latest
     steps:
-      - name: Setup env
-        uses: jwulf/add-env-vars-action@master
-        with:
-          map: '{"resourceGroup1": "${{ github.run_id }}-${{ github.run_number }}", "resourceGroup2": "${{ github.run_id }}-${{ github.run_number }}"}'
+      - name: Set vars
+        run: |
+          echo "::set-env name=resourceGroup2::${{ github.run_id }}-${{ github.run_number }}"
+          echo "::set-env name=resourceGroup1::${{ github.run_id }}-${{ github.run_number }}"
       - name: test1
         run: echo ${{ env.resourceGroup1 }}
       - name: test2
