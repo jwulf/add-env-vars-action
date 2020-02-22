@@ -17,7 +17,11 @@ jobs:
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: ./
-      with: 
-        milliseconds: 1000
+      - name: Setup env
+        uses: jwulf/add-env-vars-action@master
+        with:
+          map: '{"resourceGroup1": "${GITHUB_RUN_ID}-${GITHUB_RUN_NUMBER}", "resourceGroup2": "${{ github.run_id }}-${{ github.run_number }}"}'
+      - name: test1
+        run: echo ${{ env.resourceGroup1 }}
+      - name: test2
+        run: echo ${{ env.resourceGroup2 }}

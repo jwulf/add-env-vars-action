@@ -1,16 +1,17 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`)
-
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
+    const map = core.getInput('map')
+    const mapObj: {[key: string]: string | number} = JSON.parse(map)
+    core.info('Setting env vars:')
+    for (const key in mapObj) {
+      const envVarname = `INPUT_${key.replace(/ /g, '_').toUpperCase()}`
+      const value = mapObj[key].toString()
+      process.env[envVarname] = value
+      core.info(`Set ${envVarname} = ${value}`)
+      core.setOutput(key, value)
+    }
   } catch (error) {
     core.setFailed(error.message)
   }

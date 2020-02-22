@@ -1,10 +1,10 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Add Env vars'
+description: 'Add env vars that map contexts, globally'
+author: 'Josh Wulf <josh@magikcraft.io>'
 inputs:
-  myInput:              # change this
-    description: 'input description here'
-    default: 'default value if applicable'
+  map:              # change this
+    description: 'Map of vars'
+    required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'

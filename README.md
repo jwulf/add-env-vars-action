@@ -4,114 +4,31 @@
 
 # Create a JavaScript Action using TypeScript
 
-Use this template to bootstrap the creation of a JavaScript action.:rocket:
+See this StackOverflow question: ["GitHub Actions: env: Use pre-defined environment variables on RHS within env section"](https://stackoverflow.com/questions/60347162/github-actions-env-use-pre-defined-environment-variables-on-rhs-within-env-secA).
 
-This template includes compilication support, tests, a validation workflow, publishing, and versioning guidance.  
+> I would like to declare some environment variables in a top level env section in my main.yml whose values use some pre-defined environment variables such as those documented in the GitHub Actions documentation. However, it appears I cannot use those pre-defined variables in the right hand side of my env section. For example:
 
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
-
-## Create an action from this template
-
-Click the `Use this Template` and provide the new repo details for your action
-
-## Code in Master
-
-Install the dependencies  
-```bash
-$ npm install
 ```
-
-Build the typescript
-```bash
-$ npm run build
+env:
+  resourceGroup: ${GITHUB_RUN_ID}${GITHUB_RUN_NUMBER}
 ```
+> Is there a way to make it so any step that needs ${resourceGroup} can get it without having to manually define it within each step?
 
-Run the tests :heavy_check_mark:  
-```bash
-$ npm test
+## Now you can!
 
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
+Use this action as the first step in your workflow, and pass in the JSON-stringified map of env vars that you want set for all steps in the workflow.
 
-...
 ```
-
-## Change action.yml
-
-The action.yml contains defines the inputs and output for your action.
-
-Update the action.yml with your name, description, inputs and outputs for your action.
-
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
-
-## Change the Code
-
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
-
-```javascript
-import * as core from '@actions/core';
-...
-
-async function run() {
-  try { 
-      ...
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
-
-## Publish to a distribution branch
-
-Actions are run from GitHub repos.  We will create a releases branch and only checkin production modules (core in this case). 
-
-Comment out node_modules in .gitignore and create a releases/v1 branch
-```bash
-# comment out in distribution branches
-# node_modules/
-```
-
-```bash
-$ git checkout -b releases/v1
-$ git commit -a -m "prod dependencies"
-```
-
-```bash
-$ npm prune --production
-$ git add node_modules
-$ git commit -a -m "prod dependencies"
-$ git push origin releases/v1
-```
-
-Your action is now published! :rocket: 
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Validate
-
-You can now validate the action by referencing the releases/v1 branch
-
-```yaml
-uses: actions/typescript-action@releases/v1
-with:
-  milliseconds: 1000
-```
-
-See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:
-
-## Usage:
-
-After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and tested action
-
-```yaml
-uses: actions/typescript-action@v1
-with:
-  milliseconds: 1000
+jobs:
+  foo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup env
+        uses: jwulf/add-env-vars-action@master
+        with:
+          map: '{"resourceGroup1": "${GITHUB_RUN_ID}-${GITHUB_RUN_NUMBER}", "resourceGroup2": "${{ github.run_id }}-${{ github.run_number }}"}'
+      - name: test1
+        run: echo ${{ env.resourceGroup1 }}
+      - name: test2
+        run: echo ${{ env.resourceGroup2 }}
 ```
