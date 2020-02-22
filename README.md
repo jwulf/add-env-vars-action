@@ -1,8 +1,8 @@
 <p align="center">
-  <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
+  <a href="https://github.com//jwulf/add-env-vars-action/actions"><img alt="typescript-action status" src="https://github.com//jwulf/add-env-vars-action/workflows/build-test/badge.svg"></a>
 </p>
 
-# Create a JavaScript Action using TypeScript
+# Globally set env vars that use context variables
 
 See this StackOverflow question: ["GitHub Actions: env: Use pre-defined environment variables on RHS within env section"](https://stackoverflow.com/questions/60347162/github-actions-env-use-pre-defined-environment-variables-on-rhs-within-env-secA).
 

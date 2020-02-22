@@ -6,7 +6,7 @@ async function run(): Promise<void> {
     const mapObj: {[key: string]: string | number} = JSON.parse(map)
     core.info('Setting env vars:')
     for (const key in mapObj) {
-      const envVarname = `INPUT_${key.replace(/ /g, '_').toUpperCase()}`
+      const envVarname = key // `INPUT_${key.replace(/ /g, '_').toUpperCase()}`
       const value = mapObj[key].toString()
       process.env[envVarname] = value
       core.info(`Set ${envVarname} = ${value}`)
